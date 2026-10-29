@@ -1,0 +1,21 @@
+Fichiers officiels (a deposer par l'utilisateur, jamais telecharges par le projet)
+================================================================================
+Si un fichier <id>.ogg / .mp3 / .flac / .wav est present dans ce dossier, le jeu le joue
+a la place de la reprise synthetisee (ordre de recherche : ogg, mp3, flac, wav).
+Les boucles (loop) doivent etre decoupees pour boucler proprement ; victory et game_over ne bouclent pas.
+
+id            titre officiel                                   nom de fichier attendu
+------------  -----------------------------------------------  ----------------------
+title         Prelude (serie Final Fantasy)                    title.ogg
+prologue      Those Chosen by the Planet (FF VII)              prologue.ogg
+world_map     Main Theme of Final Fantasy VII                  world_map.ogg
+battle        Let the Battles Begin! (FF VII)                  battle.ogg
+boss          Fight On! (FF VII)                               boss.ogg
+final_boss    One-Winged Angel (FF VII)                        final_boss.ogg
+victory       Victory Fanfare (introduction, jingle)           victory.ogg
+victory_loop  Victory Fanfare (partie en boucle)               victory_loop.ogg
+shop          Cid's Theme (FF VII)                             shop.ogg
+ending        Final Fantasy (theme principal de la serie)      ending.ogg
+game_over     Aerith's Theme (FF VII), extrait                 game_over.ogg
+
+Extensions acceptees : .ogg, .mp3, .flac, .wav (le nom doit etre exactement l'id).

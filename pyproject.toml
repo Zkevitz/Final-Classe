@@ -1,0 +1,25 @@
+[project]
+name = "final-classe"
+version = "0.1.0"
+description = "Final Classe : un mini-RPG pour apprendre la programmation orientée objet"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "numpy>=2.5.4",
+    "pillow>=13.0.0",
+    "pygame-ce>=2.5.8",
+    "rich>=15.0.0",
+]
+
+[project.scripts]
+final-classe = "final_classe:main"
+final-classe-gfx = "final_classe.gfx:main"
+
+[build-system]
+requires = ["uv_build>=0.13.1,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+]

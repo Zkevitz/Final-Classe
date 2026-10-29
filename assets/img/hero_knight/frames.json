@@ -1,0 +1,93 @@
+{
+ "scale": 0.5727923627684964,
+ "frames": {
+  "idle": {
+   "file": "idle.png",
+   "anchor": [
+    102,
+    244
+   ],
+   "size": [
+    211,
+    248
+   ]
+  },
+  "ready": {
+   "file": "ready.png",
+   "anchor": [
+    206,
+    211
+   ],
+   "size": [
+    245,
+    215
+   ]
+  },
+  "windup": {
+   "file": "windup.png",
+   "anchor": [
+    104,
+    265
+   ],
+   "size": [
+    216,
+    269
+   ]
+  },
+  "strike": {
+   "file": "strike.png",
+   "anchor": [
+    255,
+    204
+   ],
+   "size": [
+    293,
+    208
+   ]
+  },
+  "cast": {
+   "file": "cast.png",
+   "anchor": [
+    94,
+    251
+   ],
+   "size": [
+    201,
+    255
+   ]
+  },
+  "hurt": {
+   "file": "hurt.png",
+   "anchor": [
+    157,
+    225
+   ],
+   "size": [
+    219,
+    229
+   ]
+  },
+  "ko": {
+   "file": "ko.png",
+   "anchor": [
+    90,
+    153
+   ],
+   "size": [
+    201,
+    157
+   ]
+  },
+  "victory": {
+   "file": "victory.png",
+   "anchor": [
+    114,
+    255
+   ],
+   "size": [
+    224,
+    259
+   ]
+  }
+ }
+}

@@ -1,0 +1,802 @@
+{
+ "_doc": "Contrat entre Codex et le code. Codex écrit l'image brute dans assets/raw/<id>.png ; le script .claude/skills/gen-sprite/postprocess.py produit assets/img/<id>.png. Le jeu ne lit que assets/img/<id>.png et dessine un placeholder si le fichier manque. Voir docs/DIRECTION-ARTISTIQUE.md.",
+ "_fields": {
+  "kind": "sprite (sujet détouré, mis à la hauteur 'height', ancré en bas au centre) | background (recadré-couvert à 'size') | icon (détouré, carré 'size')",
+  "facing": "left = regarde vers la gauche (héros) ; right = regarde vers la droite (monstres)",
+  "key": "couleur de fond uni à demander à Codex, retirée au post-traitement",
+  "gen_size": "format à demander à Codex",
+  "priority": "1 = indispensable, 2 = bonus (générés en dernier, le jeu marche sans)",
+  "floating": "true = créature volante : le jeu la fait léviter (sinon, absent = false)",
+  "ref": "personnage ou lieu original reproduit fidèlement ; retiré par build_prompt.py --no-ref si Codex refuse (la description seule doit alors suffire)",
+  "sheet": "planche de poses (grille colonnes x lignes, cases lues de gauche à droite puis de haut en bas) : Codex la dessine dans assets/raw/<id>_sheet.png à partir de assets/raw/<id>.png en référence ; postprocess.py produit assets/img/<id>/<frame>.png + assets/img/<id>/frames.json. assets/img/<id>.png reste la pose de repos."
+ },
+ "assets": [
+  {
+   "id": "hero_soldier",
+   "kind": "sprite",
+   "height": 240,
+   "facing": "left",
+   "key": "#FF00FF",
+   "gen_size": "1024x1536",
+   "priority": 1,
+   "prompt": "spiky blond hair, mako-blue glowing eyes, dark navy sleeveless SOLDIER turtleneck uniform, single silver pauldron on the left shoulder, brown belts and baggy dark pants, brown boots, holding the huge Buster Sword low in both hands, full body",
+   "ref": "Cloud Strife from Final Fantasy VII, faithful to his original design",
+   "sheet": {
+    "grid": [
+     4,
+     2
+    ],
+    "gen_size": "1536x1024",
+    "frames": [
+     "idle",
+     "ready",
+     "windup",
+     "strike",
+     "cast",
+     "hurt",
+     "ko",
+     "victory"
+    ]
+   }
+  },
+  {
+   "id": "hero_black_mage",
+   "kind": "sprite",
+   "height": 240,
+   "facing": "left",
+   "key": "#FF00FF",
+   "gen_size": "1024x1536",
+   "priority": 1,
+   "prompt": "small black mage child, tall pointed tan straw hat with a bent tip, face hidden in black shadow with two glowing yellow eyes, high blue collar coat, baggy striped pants, white gloves, holding a wooden staff, full body",
+   "ref": "Vivi Ornitier from Final Fantasy IX, faithful to his original design",
+   "sheet": {
+    "grid": [
+     4,
+     2
+    ],
+    "gen_size": "1536x1024",
+    "frames": [
+     "idle",
+     "ready",
+     "windup",
+     "strike",
+     "cast",
+     "hurt",
+     "ko",
+     "victory"
+    ]
+   }
+  },
+  {
+   "id": "hero_knight",
+   "kind": "sprite",
+   "height": 240,
+   "facing": "left",
+   "key": "#FF00FF",
+   "gen_size": "1024x1536",
+   "priority": 1,
+   "prompt": "long silver-white hair, gleaming white and silver paladin plate armor with gold trim, flowing white cape, holy longsword in hand and a crested shield, noble expression, full body",
+   "ref": "Cecil Harvey as a Paladin from Final Fantasy IV, faithful to his original design",
+   "sheet": {
+    "grid": [
+     4,
+     2
+    ],
+    "gen_size": "1536x1024",
+    "frames": [
+     "idle",
+     "ready",
+     "windup",
+     "strike",
+     "cast",
+     "hurt",
+     "ko",
+     "victory"
+    ]
+   }
+  },
+  {
+   "id": "hero_monk",
+   "kind": "sprite",
+   "height": 240,
+   "facing": "left",
+   "key": "#FF00FF",
+   "gen_size": "1024x1536",
+   "priority": 1,
+   "prompt": "long black hair tied at the end, red eyes, white sleeveless top with black suspenders, knee-length black skirt over black shorts, red and black leather fighting gloves, red boots, fists raised in a martial arts stance, full body",
+   "ref": "Tifa Lockhart from Final Fantasy VII, faithful to her original design",
+   "sheet": {
+    "grid": [
+     4,
+     2
+    ],
+    "gen_size": "1536x1024",
+    "frames": [
+     "idle",
+     "ready",
+     "windup",
+     "strike",
+     "cast",
+     "hurt",
+     "ko",
+     "victory"
+    ]
+   }
+  },
+  {
+   "id": "hero_thief",
+   "kind": "sprite",
+   "height": 240,
+   "facing": "left",
+   "key": "#FF00FF",
+   "gen_size": "1024x1536",
+   "priority": 1,
+   "prompt": "blond hair in a ponytail, monkey tail, blue vest over a white shirt with a big collar, blue baggy pants, belt pouches, crouched ready to dash holding twin daggers, cheeky grin, full body",
+   "ref": "Zidane Tribal from Final Fantasy IX, faithful to his original design",
+   "sheet": {
+    "grid": [
+     4,
+     2
+    ],
+    "gen_size": "1536x1024",
+    "frames": [
+     "idle",
+     "ready",
+     "windup",
+     "strike",
+     "cast",
+     "hurt",
+     "ko",
+     "victory"
+    ]
+   }
+  },
+  {
+   "id": "hero_samurai",
+   "kind": "sprite",
+   "height": 240,
+   "facing": "left",
+   "key": "#FF00FF",
+   "gen_size": "1024x1536",
+   "priority": 1,
+   "prompt": "grizzled warrior with gray slicked hair and a scar over his closed right eye, high-collared red long coat worn with one arm out of the sleeve, sunglasses, a sake jug at his belt, huge katana resting on his shoulder, full body",
+   "ref": "Auron from Final Fantasy X, faithful to his original design",
+   "sheet": {
+    "grid": [
+     4,
+     2
+    ],
+    "gen_size": "1536x1024",
+    "frames": [
+     "idle",
+     "ready",
+     "windup",
+     "strike",
+     "cast",
+     "hurt",
+     "ko",
+     "victory"
+    ]
+   }
+  },
+  {
+   "id": "hero_archer",
+   "kind": "sprite",
+   "height": 240,
+   "facing": "left",
+   "key": "#FF00FF",
+   "gen_size": "1024x1536",
+   "priority": 1,
+   "prompt": "tall viera woman with long white hair and tall white rabbit ears, dark skin, red eyes, sleek black and silver full plate armor covering her torso, arms and legs, armored greaves, drawing an elegant bow with an arrow nocked, full body",
+   "ref": "Fran from Final Fantasy XII, faithful to her original design",
+   "sheet": {
+    "grid": [
+     4,
+     2
+    ],
+    "gen_size": "1536x1024",
+    "frames": [
+     "idle",
+     "ready",
+     "windup",
+     "strike",
+     "cast",
+     "hurt",
+     "ko",
+     "victory"
+    ]
+   }
+  },
+  {
+   "id": "hero_ninja",
+   "kind": "sprite",
+   "height": 240,
+   "facing": "left",
+   "key": "#FF00FF",
+   "gen_size": "1024x1536",
+   "priority": 1,
+   "prompt": "young ninja girl with short black hair and a headband, green turtleneck crop top, beige shorts, arm guards, holding her giant four-bladed shuriken (the Conformer) ready to throw, full body",
+   "ref": "Yuffie Kisaragi from Final Fantasy VII, faithful to her original design",
+   "sheet": {
+    "grid": [
+     4,
+     2
+    ],
+    "gen_size": "1536x1024",
+    "frames": [
+     "idle",
+     "ready",
+     "windup",
+     "strike",
+     "cast",
+     "hurt",
+     "ko",
+     "victory"
+    ]
+   }
+  },
+  {
+   "id": "mon_flan",
+   "kind": "sprite",
+   "height": 150,
+   "facing": "right",
+   "key": "#FF00FF",
+   "gen_size": "1024x1024",
+   "priority": 1,
+   "prompt": "a wobbly translucent golden-yellow custard pudding blob monster with a glossy caramel top, two small dark eyes and a tiny mouth, jelly-like highlights, cute but menacing",
+   "ref": "the Flan monster from the Final Fantasy series"
+  },
+  {
+   "id": "mon_wolf",
+   "kind": "sprite",
+   "height": 190,
+   "facing": "right",
+   "key": "#FF00FF",
+   "gen_size": "1536x1024",
+   "priority": 1,
+   "prompt": "a snarling grey dire wolf with thick fur and bared fangs, low aggressive stance, glowing amber eyes, full body",
+   "ref": "a Wolf enemy from the Final Fantasy series"
+  },
+  {
+   "id": "mon_bomb",
+   "kind": "sprite",
+   "height": 170,
+   "facing": "right",
+   "key": "#00FF00",
+   "gen_size": "1024x1024",
+   "priority": 1,
+   "floating": true,
+   "prompt": "a floating living fireball monster with a wide mischievous grin and angry eyes, swirling orange and red flames around a bright yellow core, small flame arms",
+   "ref": "the Bomb monster from the Final Fantasy series"
+  },
+  {
+   "id": "mon_ahriman",
+   "kind": "sprite",
+   "height": 230,
+   "facing": "right",
+   "key": "#00FF00",
+   "gen_size": "1024x1024",
+   "priority": 1,
+   "floating": true,
+   "prompt": "a floating one-eyed demon with a huge single bloodshot eye in a round purple body, large leathery bat wings spread wide, small clawed feet, long thin tail",
+   "ref": "the Ahriman (Float Eye) monster from the Final Fantasy series"
+  },
+  {
+   "id": "mon_cactuar",
+   "kind": "sprite",
+   "height": 170,
+   "facing": "right",
+   "key": "#FF00FF",
+   "gen_size": "1024x1536",
+   "priority": 1,
+   "prompt": "a small green cactus creature in a comical running pose with straight arms, three dark hole-like dots for eyes and mouth, little spines, tiny tuft of yellow flowers on top",
+   "ref": "the Cactuar from the Final Fantasy series"
+  },
+  {
+   "id": "mon_malboro",
+   "kind": "sprite",
+   "height": 360,
+   "facing": "right",
+   "key": "#FF00FF",
+   "gen_size": "1536x1024",
+   "priority": 1,
+   "prompt": "a huge grotesque green plant monster with a gaping mouth full of jagged teeth, dozens of writhing tentacles, purple drool and toxic bubbles, many small eyes",
+   "ref": "the Malboro monster from Final Fantasy X"
+  },
+  {
+   "id": "mon_tonberry",
+   "kind": "sprite",
+   "height": 170,
+   "facing": "right",
+   "key": "#FF00FF",
+   "gen_size": "1024x1536",
+   "priority": 1,
+   "prompt": "a small hunched green lizard-like creature in a brown hooded monk robe, holding a glowing lantern in one hand and a large kitchen knife in the other, yellow eyes, slow eerie walk",
+   "ref": "the Tonberry from the Final Fantasy series"
+  },
+  {
+   "id": "mon_golem",
+   "kind": "sprite",
+   "height": 300,
+   "facing": "right",
+   "key": "#FF00FF",
+   "gen_size": "1024x1536",
+   "priority": 1,
+   "prompt": "a massive golem made of translucent cyan and blue crystal shards, glowing core in the chest, heavy fists, faceted body catching the light",
+   "ref": "a crystal Golem enemy from the Final Fantasy series"
+  },
+  {
+   "id": "mon_behemoth",
+   "kind": "sprite",
+   "height": 360,
+   "facing": "right",
+   "key": "#00FF00",
+   "gen_size": "1536x1024",
+   "priority": 1,
+   "prompt": "an enormous purple beast with two great curved horns, a lion-like mane, muscular body, long whip tail, roaring with sharp fangs, full body",
+   "ref": "the Behemoth from the Final Fantasy series"
+  },
+  {
+   "id": "mon_chimera",
+   "kind": "sprite",
+   "height": 360,
+   "facing": "right",
+   "key": "#FF00FF",
+   "gen_size": "1536x1024",
+   "priority": 1,
+   "prompt": "a chimera monster with a lion head, a goat head on its back and a serpent-headed tail, feathered wings, golden fur, full body",
+   "ref": "the Chimera from the Final Fantasy series"
+  },
+  {
+   "id": "mon_lich",
+   "kind": "sprite",
+   "height": 300,
+   "facing": "right",
+   "key": "#00FF00",
+   "gen_size": "1024x1536",
+   "priority": 1,
+   "floating": true,
+   "prompt": "an undead skeletal sorcerer floating in tattered dark purple and black robes, golden crown, glowing blue eyes, skeletal hands crackling with cold violet magic",
+   "ref": "Lich, the Fiend of Earth from Final Fantasy I (Dissidia-era design)"
+  },
+  {
+   "id": "mon_garland",
+   "kind": "sprite",
+   "height": 300,
+   "facing": "right",
+   "key": "#FF00FF",
+   "gen_size": "1024x1536",
+   "priority": 1,
+   "prompt": "towering knight in dark blue-black spiked armor with enormous curved horns on the helmet, glowing eyes behind the visor, long dark cape, wielding his huge transforming greatsword, full body",
+   "ref": "Garland from Final Fantasy I, faithful to his Dissidia Final Fantasy design",
+   "sheet": {
+    "grid": [
+     4,
+     2
+    ],
+    "gen_size": "1536x1024",
+    "frames": [
+     "idle",
+     "ready",
+     "windup",
+     "strike",
+     "cast",
+     "hurt",
+     "ko",
+     "victory"
+    ],
+    "note": "This character has a very large silhouette (huge cape, horns and great sword): draw him at about 60% of the cell height, keep the cape, horns and great sword folded close to the body in every pose, and keep every part at least 50 px away from the cell borders, especially in poses 3 (windup) and 4 (strike); nothing may cross into a neighbouring cell"
+   }
+  },
+  {
+   "id": "mon_red_dragon",
+   "kind": "sprite",
+   "height": 420,
+   "facing": "right",
+   "key": "#00FF00",
+   "gen_size": "1536x1024",
+   "priority": 1,
+   "prompt": "a colossal red dragon with crimson scales, great spread wings, golden horns, fire glowing in its throat, powerful full body",
+   "ref": "the Red Dragon from the Final Fantasy series"
+  },
+  {
+   "id": "mon_sephiroth",
+   "kind": "sprite",
+   "height": 320,
+   "facing": "right",
+   "key": "#FF00FF",
+   "gen_size": "1024x1536",
+   "priority": 1,
+   "prompt": "very long straight silver hair, cold green cat-like mako eyes, long black leather coat with silver pauldrons and chest straps, wielding the extremely long Masamune katana, a single large black feathered wing, full body",
+   "ref": "Sephiroth from Final Fantasy VII, faithful to his Advent Children design",
+   "sheet": {
+    "grid": [
+     4,
+     2
+    ],
+    "gen_size": "1536x1024",
+    "frames": [
+     "idle",
+     "ready",
+     "windup",
+     "strike",
+     "cast",
+     "hurt",
+     "ko",
+     "victory"
+    ],
+    "note": "Draw him at about 55% of the cell height, centered in each cell. His single black wing must be FOLDED tightly behind his back in EVERY pose (never spread sideways), and in poses 3 (windup) and 4 (strike) the long Masamune blade points UP or diagonally inside the cell, never horizontally towards a neighbouring cell; keep every part at least 60 px away from the cell borders; nothing may cross into a neighbouring cell"
+   }
+  },
+  {
+   "id": "bg_title",
+   "kind": "background",
+   "size": [
+    1280,
+    720
+   ],
+   "gen_size": "1536x1024",
+   "priority": 1,
+   "prompt": "an epic fantasy vista at twilight, a giant glowing blue crystal floating above a cliff, starry sky, distant mountains and an airship silhouette, dramatic and majestic, empty center area for a title",
+   "ref": "the glowing Crystal from the Final Fantasy series"
+  },
+  {
+   "id": "bg_plains",
+   "kind": "background",
+   "size": [
+    1280,
+    720
+   ],
+   "gen_size": "1536x1024",
+   "priority": 1,
+   "prompt": "sunny golden desert plains with dry grass, distant sandstone mesas and a far away desert city with domes, bright blue sky, flat open sandy ground in the lower third",
+   "ref": "the Dalmasca Westersand outside Rabanastre from Final Fantasy XII"
+  },
+  {
+   "id": "bg_forest",
+   "kind": "background",
+   "size": [
+    1280,
+    720
+   ],
+   "gen_size": "1536x1024",
+   "priority": 1,
+   "prompt": "an enchanted luminous forest of blue crystal trees, glowing white leaves, floating light motes, misty, flat mossy clearing in the lower third",
+   "ref": "Macalania Woods from Final Fantasy X"
+  },
+  {
+   "id": "bg_cave",
+   "kind": "background",
+   "size": [
+    1280,
+    720
+   ],
+   "gen_size": "1536x1024",
+   "priority": 1,
+   "prompt": "a vast underground cave filled with giant glowing teal and violet crystals, dark rock walls, reflections, flat stone floor in the lower third"
+  },
+  {
+   "id": "bg_chaos",
+   "kind": "background",
+   "size": [
+    1280,
+    720
+   ],
+   "gen_size": "1536x1024",
+   "priority": 1,
+   "prompt": "the ruins of an ancient dark temple, broken stone pillars, eerie purple flames in braziers, stormy red-violet sky through the collapsed roof, flat cracked stone floor in the lower third",
+   "ref": "the Chaos Shrine (Temple of Fiends) from Final Fantasy I"
+  },
+  {
+   "id": "bg_crater",
+   "kind": "background",
+   "size": [
+    1280,
+    720
+   ],
+   "gen_size": "1536x1024",
+   "priority": 1,
+   "prompt": "the bottom of a gigantic northern crater, jagged dark rocks, swirling rivers of glowing green spiritual energy rising to the sky, ominous atmosphere, flat rocky ground in the lower third",
+   "ref": "the Northern Crater from Final Fantasy VII"
+  },
+  {
+   "id": "bg_prologue",
+   "kind": "background",
+   "size": [
+    1280,
+    720
+   ],
+   "gen_size": "1536x1024",
+   "priority": 1,
+   "prompt": "a small mountain village burning at night, wooden houses in flames, an old stone water tower in the center, embers in the air, dark mountains, flat dirt square in the lower third",
+   "ref": "Nibelheim burning, with its old water tower and the Shinra Mansion in the background, from Final Fantasy VII"
+  },
+  {
+   "id": "bg_world_map",
+   "kind": "background",
+   "size": [
+    1280,
+    720
+   ],
+   "gen_size": "1536x1024",
+   "priority": 2,
+   "prompt": "a top-down painted fantasy world map of a single continent: golden desert plains in the southwest, a blue crystal forest in the center, mountains with a cave, a dark ruined temple on an island to the east, a giant crater in the snowy north, ocean around, no text, no labels"
+  },
+  {
+   "id": "bg_shop",
+   "kind": "background",
+   "size": [
+    1280,
+    720
+   ],
+   "gen_size": "1536x1024",
+   "priority": 2,
+   "prompt": "a cozy merchant workshop inside an airship hangar, wooden counter with weapons and potions on shelves, warm lantern light, gears and tools, no people",
+   "ref": "Cid's airship workshop from the Final Fantasy series"
+  },
+  {
+   "id": "bg_ending",
+   "kind": "background",
+   "size": [
+    1280,
+    720
+   ],
+   "gen_size": "1536x1024",
+   "priority": 2,
+   "prompt": "a peaceful sunrise over green rolling hills and a calm sea, golden light, a few flowers in the foreground, hopeful atmosphere"
+  },
+  {
+   "id": "summon_fire",
+   "kind": "sprite",
+   "height": 560,
+   "facing": "left",
+   "key": "#00FF00",
+   "gen_size": "1024x1536",
+   "priority": 2,
+   "prompt": "a towering fire demon beast with huge curved horns, muscular body of molten rock and burning flames, mane of fire, roaring, epic summon pose",
+   "ref": "Ifrit from Final Fantasy X, faithful to his original design"
+  },
+  {
+   "id": "summon_ice",
+   "kind": "sprite",
+   "height": 560,
+   "facing": "left",
+   "key": "#FF00FF",
+   "gen_size": "1024x1536",
+   "priority": 2,
+   "prompt": "majestic ice goddess with pale blue skin and long flowing ice-blue hair tied in a long braid, fully clothed in an elegant full-length gown of frost-blue silk and crystalline ice armor covering her body, long sleeves, serene regal expression, graceful floating pose with one hand raised conjuring snowflakes and ice crystals, modest, family-friendly, full body",
+   "ref": "Shiva from Final Fantasy X, faithful to her original design"
+  },
+  {
+   "id": "summon_thunder",
+   "kind": "sprite",
+   "height": 560,
+   "facing": "left",
+   "key": "#FF00FF",
+   "gen_size": "1024x1536",
+   "priority": 2,
+   "prompt": "an ancient wise sage of thunder with a very long white beard, flowing white and blue robes, raising a golden staff crackling with lightning, epic summon pose",
+   "ref": "Ramuh from Final Fantasy IX, faithful to his original design"
+  },
+  {
+   "id": "summon_dragon_king",
+   "kind": "sprite",
+   "height": 600,
+   "facing": "left",
+   "key": "#FF00FF",
+   "gen_size": "1536x1024",
+   "priority": 2,
+   "prompt": "a colossal dragon king with dark blue-black armored scales, enormous spread wings with glowing edges, charging a beam of light in its open mouth, epic summon pose",
+   "ref": "Bahamut from Final Fantasy X, faithful to his original design"
+  },
+  {
+   "id": "icon_potion",
+   "kind": "icon",
+   "size": 96,
+   "key": "#FF00FF",
+   "gen_size": "1024x1024",
+   "priority": 2,
+   "prompt": "a single round glass potion bottle with glowing green-blue liquid and a cork, game item icon",
+   "ref": "a Potion from the Final Fantasy series"
+  },
+  {
+   "id": "icon_ether",
+   "kind": "icon",
+   "size": 96,
+   "key": "#00FF00",
+   "gen_size": "1024x1024",
+   "priority": 2,
+   "prompt": "a single slender glass vial with glowing violet liquid and a silver stopper, game item icon",
+   "ref": "an Ether from the Final Fantasy series"
+  },
+  {
+   "id": "icon_phoenix_down",
+   "kind": "icon",
+   "size": 96,
+   "key": "#00FF00",
+   "gen_size": "1024x1024",
+   "priority": 2,
+   "prompt": "a single glowing red and orange phoenix feather with golden sparkles, game item icon",
+   "ref": "a Phoenix Down from the Final Fantasy series"
+  },
+  {
+   "id": "icon_elixir",
+   "kind": "icon",
+   "size": 96,
+   "key": "#FF00FF",
+   "gen_size": "1024x1024",
+   "priority": 2,
+   "prompt": "a single ornate golden flask with glowing rainbow liquid, game item icon",
+   "ref": "an Elixir from the Final Fantasy series"
+  },
+  {
+   "id": "icon_materia_green",
+   "kind": "icon",
+   "size": 96,
+   "key": "#FF00FF",
+   "gen_size": "1024x1024",
+   "priority": 2,
+   "prompt": "a single glowing translucent green magic orb with swirling light inside, glossy highlight, game item icon",
+   "ref": "green magic Materia from Final Fantasy VII"
+  },
+  {
+   "id": "icon_materia_red",
+   "kind": "icon",
+   "size": 96,
+   "key": "#00FF00",
+   "gen_size": "1024x1024",
+   "priority": 2,
+   "prompt": "a single glowing translucent red magic orb with swirling light inside, glossy highlight, game item icon",
+   "ref": "red summon Materia from Final Fantasy VII"
+  },
+  {
+   "id": "icon_sword",
+   "kind": "icon",
+   "size": 96,
+   "key": "#FF00FF",
+   "gen_size": "1024x1024",
+   "priority": 2,
+   "prompt": "a single steel sword with a golden crossguard, diagonal, game item icon"
+  },
+  {
+   "id": "icon_rod",
+   "kind": "icon",
+   "size": 96,
+   "key": "#FF00FF",
+   "gen_size": "1024x1024",
+   "priority": 2,
+   "prompt": "a single magic rod with a blue crystal on top and silver shaft, diagonal, game item icon"
+  },
+  {
+   "id": "icon_armor",
+   "kind": "icon",
+   "size": 96,
+   "key": "#FF00FF",
+   "gen_size": "1024x1024",
+   "priority": 2,
+   "prompt": "a single silver breastplate armor with blue trim, game item icon"
+  },
+  {
+   "id": "icon_accessory",
+   "kind": "icon",
+   "size": 96,
+   "key": "#00FF00",
+   "gen_size": "1024x1024",
+   "priority": 2,
+   "prompt": "a single golden ring with a purple gem, game item icon"
+  },
+  {
+   "id": "icon_gil",
+   "kind": "icon",
+   "size": 64,
+   "key": "#FF00FF",
+   "gen_size": "1024x1024",
+   "priority": 2,
+   "prompt": "a single shiny gold coin with an embossed crystal symbol, game currency icon",
+   "ref": "a Gil coin from the Final Fantasy series"
+  },
+  {
+   "id": "ui_cursor",
+   "kind": "icon",
+   "size": 48,
+   "key": "#FF00FF",
+   "gen_size": "1024x1024",
+   "priority": 1,
+   "prompt": "a white cartoon gloved hand pointing to the right with the index finger, clean outline, game menu cursor icon",
+   "ref": "the classic Final Fantasy menu cursor hand"
+  },
+  {
+   "id": "ui_emblem",
+   "kind": "icon",
+   "size": 320,
+   "key": "#FF00FF",
+   "gen_size": "1024x1024",
+   "priority": 2,
+   "prompt": "an ornate fantasy emblem: a glowing blue crystal with a golden winged frame and a sword behind it, symmetrical, logo artwork without any text"
+  },
+  {
+   "id": "hero_lulu",
+   "kind": "sprite",
+   "height": 240,
+   "facing": "left",
+   "key": "#FF00FF",
+   "gen_size": "1024x1536",
+   "priority": 1,
+   "prompt": "young woman with pale skin and dark purple lipstick, long black hair in an elaborate updo with many long braids held by ornate silver hairpins, black fur-trimmed gown made of many leather belts forming a wide fan-shaped skirt, holding a small cute moogle doll, elegant composed pose, full body",
+   "ref": "Lulu from Final Fantasy X, faithful to her original design",
+   "sheet": {
+    "grid": [
+     4,
+     2
+    ],
+    "gen_size": "1536x1024",
+    "frames": [
+     "idle",
+     "ready",
+     "windup",
+     "strike",
+     "cast",
+     "hurt",
+     "ko",
+     "victory"
+    ]
+   }
+  },
+  {
+   "id": "hero_basch",
+   "kind": "sprite",
+   "height": 240,
+   "facing": "left",
+   "key": "#FF00FF",
+   "gen_size": "1024x1536",
+   "priority": 1,
+   "prompt": "rugged knight in his thirties, shoulder-length messy blond hair, short blond beard, scar across his forehead, brown leather and steel armor with a large metal pauldron on one shoulder, dark tunic, holding a broad longsword, full body",
+   "ref": "Basch fon Ronsenburg from Final Fantasy XII, faithful to his original design",
+   "sheet": {
+    "grid": [
+     4,
+     2
+    ],
+    "gen_size": "1536x1024",
+    "frames": [
+     "idle",
+     "ready",
+     "windup",
+     "strike",
+     "cast",
+     "hurt",
+     "ko",
+     "victory"
+    ]
+   }
+  },
+  {
+   "id": "hero_amarant",
+   "kind": "sprite",
+   "height": 240,
+   "facing": "left",
+   "key": "#FF00FF",
+   "gen_size": "1024x1536",
+   "priority": 1,
+   "prompt": "very tall muscular man with tanned skin, enormous wild mane of long spiky red dreadlock hair falling down his back, blue-green fitted outfit with a yellow sash, metal claw weapons on both hands, bare feet, hunched predatory martial arts stance, full body",
+   "ref": "Amarant Coral from Final Fantasy IX, faithful to his original design",
+   "sheet": {
+    "grid": [
+     4,
+     2
+    ],
+    "gen_size": "1536x1024",
+    "frames": [
+     "idle",
+     "ready",
+     "windup",
+     "strike",
+     "cast",
+     "hurt",
+     "ko",
+     "victory"
+    ]
+   }
+  }
+ ]
+}
